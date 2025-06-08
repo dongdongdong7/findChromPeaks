@@ -1,0 +1,22 @@
+Package: findChromPeaks
+Type: Package
+Title: Find chromatographic peaks
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Jane", "Doe",
+      email = "jane@example.com",
+      role = c("aut", "cre")
+    )
+  )
+Description: In the preprocessing of metabolomics data, 
+    a basic requirement is to find metabolite peaks in chromatograms.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp
