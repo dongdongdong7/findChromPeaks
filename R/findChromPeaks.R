@@ -413,17 +413,19 @@ findChromPeaks_CWT <- function(int, rt,
                                   c = c)), silent = TRUE)
       if (class(fit) != "try-error"){
         d1_fit <- predict(fit, x = x)
-        peak_pos <- which.max(d1_fit) - 1
+        peak_pos <- which.max(d1_fit)
         deriv1 <- diff(d1_fit) / diff(x)
-        x_deriv1 <- x[-1]
+        x_deriv1 <- 1:length(deriv1)
+        inflection_left_pos <- which.max(deriv1)
+        inflection_right_pos <- which.min(deriv1)
         # The first order derivatives close to 0 are the boundaries of the peaks
         zero_pos <- which(abs(deriv1)< 0.001)
-        left_pos <- zero_pos[which(zero_pos < peak_pos)]
+        left_pos <- zero_pos[which(zero_pos < inflection_left_pos)]
         if(length(left_pos) == 0) left_pos <- 1
-        else left_pos <- max(1, left_pos[length(left_pos)]) + 1
-        right_pos <- zero_pos[which(zero_pos > peak_pos)]
+        else left_pos <- max(1, left_pos[length(left_pos)])
+        right_pos <- zero_pos[which(zero_pos > inflection_right_pos)]
         if(length(right_pos) == 0) right_pos <- length(d1_fit)
-        else right_pos <- min(right_pos[1], length(x_deriv1)) + 1
+        else right_pos <- min(right_pos[1], length(x_deriv1))
         p[i, "scimin"] <- ptd[left_pos];p[i, "scimax"] <- ptd[right_pos]
         p[i, "rtmin"] <- rt[ptd[left_pos]];p[i, "rtmax"] <- rt[ptd[right_pos]]
         p[i, "sci"] <- ptd[which.max(d1_fit)];p[i, "rt"] <- rt[p[i, "sci"]]
