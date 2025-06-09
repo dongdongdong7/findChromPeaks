@@ -7,7 +7,7 @@ NULL
 
 ## Rcpp
 ## usethis::use_rcpp()
-#' @useDynLib asariR
+#' @useDynLib findChromPeaks
 #' @importFrom Rcpp evalCpp
 NULL
 
