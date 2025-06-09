@@ -15,7 +15,7 @@ final_chrom <- combined + baseline  + abs(rnorm(length(rtime), mean = 0, sd = 25
 plot(rtime, final_chrom, type = "l", xlab = "Retention Time (sec)", ylab = "Intensity")
 ```
 
-<img src="D:\fudan\Projects\2025\findChromPeaks\package\findChromPeaks\assets\image-20250609084604328.png" alt="image-20250609084604328" style="zoom: 80%;" />
+<img src=".\assets\image-20250609084604328.png" alt="image-20250609084604328" style="zoom:80%;" />
 
 ## Find chromatographic peaks
 
