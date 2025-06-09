@@ -39,5 +39,5 @@ peak3 <- leading_peak(rtime, peakRt = 720, peakWidth = 18, peakHeight = 5000, ta
 combined <- peak1 + peak2 + peak3
 baseline <- 100 + 1 * rtime + 100 * sin(rtime/100)
 final_chrom <- combined + baseline  + abs(rnorm(length(rtime), mean = 0, sd = 25))
-plot(rtime, final_chrom, type = "l")
+plot(rtime, final_chrom, type = "l", xlab = "Retention Time (sec)", ylab = "Intensity")
 }

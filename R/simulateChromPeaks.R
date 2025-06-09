@@ -23,7 +23,7 @@
 #' combined <- peak1 + peak2 + peak3
 #' baseline <- 100 + 1 * rtime + 100 * sin(rtime/100)
 #' final_chrom <- combined + baseline  + abs(rnorm(length(rtime), mean = 0, sd = 25))
-#' plot(rtime, final_chrom, type = "l")
+#' plot(rtime, final_chrom, type = "l", xlab = "Retention Time (sec)", ylab = "Intensity")
 gaussian_peak <- function(rtime, peakRt, peakWidth, peakHeight){
   # peakWidth 现在表示基线峰宽(W)，转换为标准差σ = W/4
   sigma <- peakWidth / 4  # 对于高斯峰，W ≈ 4σ
