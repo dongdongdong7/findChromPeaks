@@ -3,6 +3,8 @@
 export("%>%")
 export(findChromPeaks_CWT)
 export(gaussian_peak)
+export(leading_peak)
+export(tailing_peak)
 importFrom(Rcpp,evalCpp)
 importFrom(Rcpp,sourceCpp)
 importFrom(magrittr,"%>%")

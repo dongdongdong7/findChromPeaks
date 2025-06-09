@@ -34,6 +34,7 @@ gaussian_peak <- function(rtime, peakRt, peakWidth, peakHeight){
 #' @rdname simulateChromPeaks
 #' @param tau `numeric(1)`, the degree of tailing or leading of chromatographic peak;
 #' for tailing peas, greater than 0; for leading less than 0
+#' @export
 tailing_peak <- function(rtime, peakRt, peakWidth, peakHeight, tau = 10){
   sigma <- peakWidth / 4
   a <- (sigma^2 - tau*(rtime - peakRt)) / (sqrt(2)*sigma*tau)
@@ -45,6 +46,7 @@ tailing_peak <- function(rtime, peakRt, peakWidth, peakHeight, tau = 10){
 }
 
 #' @rdname simulateChromPeaks
+#' @export
 leading_peak <- function(rtime, peakRt, peakWidth, peakHeight, tau = -10){
   sigma <- peakWidth / 4
 
