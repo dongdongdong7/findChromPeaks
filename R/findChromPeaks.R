@@ -407,10 +407,14 @@ findChromPeaks_CWT <- function(int, rt,
       c <- fwhm / 2.355 # fwhm = 2*sqrt(2*ln(2)) = 2.355 * c
       x <- 1:length(d1)
       # Gaussian fitting
-      fit <- try(nls(d1 ~ a*exp(-((x-b)^2)/(2*c^2)),
-                     start = list(a = max(d1),
-                                  b = which.max(d1),
-                                  c = c)), silent = TRUE)
+      # fit <- try(nls(d1 ~ a*exp(-((x-b)^2)/(2*c^2)),
+      #                start = list(a = max(d1),
+      #                             b = which.max(d1),
+      #                             c = c)), silent = TRUE)
+      fit <- try(minpack.lm::nlsLM(d1 ~ a*exp(-((x-b)^2)/(2*c^2)),
+                                   start = c(a = max(d1),
+                                             b = which.max(d1),
+                                             c = c)), silent = TRUE)
       if (class(fit) != "try-error"){
         d1_fit <- predict(fit, x = x)
         peak_pos <- which.max(d1_fit)
