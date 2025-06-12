@@ -19,5 +19,4 @@ RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp
 Imports: 
-    minpack.lm,
     Rcpp

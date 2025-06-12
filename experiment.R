@@ -20,6 +20,13 @@ chromData <- readRDS(file = "./inst/demo/chromData4.rds")
 plot(x = chromData$rtime, chromData$intensity, type = "o")
 findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)
 
+# chromData5
+# Change minpack.lm::nlsLM back to nls
+chromData <- readRDS(file = "./inst/demo/chromData5.rds")
+plot(x = chromData$rtime, chromData$intensity, type = "o")
+findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)
+
+
 
 system.time({findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)})
 system.time({xcms::peaksWithCentWave(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3, fitgauss = TRUE)})
