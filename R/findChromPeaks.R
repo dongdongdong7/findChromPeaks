@@ -146,8 +146,8 @@ findChromPeaks_CWT <- function(int, rt,
   # estimate noise
   if(estimateNoise){
     mag <- min(snthresh, 3)
-    noise_es <- .noiseEs(int = int, mag = mag)
-    if(length(which(int > noise_es)) > minPs) noise <- noise_es # avoid noise misestimation
+    noise_es <- .noiseEs(int = int_o, mag = mag)
+    if(length(which(int_o > noise_es)) > minPs) noise <- noise_es # avoid noise misestimation
   }
   # Get ROIs
   rois <- .getRtROI(int = int, rt = rt, peakwidth = peakwidth, noise = noise, prefilter = c(minPs, noise))

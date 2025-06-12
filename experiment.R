@@ -10,6 +10,12 @@ plot(x = chromData$rtime, chromData$intensity, type = "o")
 findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)
 findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3, r2thresh = 0.8)
 
+# chromData3
+chromData <- readRDS(file = "./inst/demo/chromData3.rds")
+plot(x = chromData$rtime, chromData$intensity, type = "o")
+findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3, extendLengthMSW = TRUE)
+
+
 system.time({findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)})
 system.time({xcms::peaksWithCentWave(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3, fitgauss = TRUE)})
 
