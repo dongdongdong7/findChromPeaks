@@ -26,6 +26,11 @@ chromData <- readRDS(file = "./inst/demo/chromData5.rds")
 plot(x = chromData$rtime, chromData$intensity, type = "o")
 findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)
 
+# chromData6
+# Add peak points number judgment
+chromData <- readRDS(file = "./inst/demo/chromData6.rds")
+plot(x = chromData$rtime, chromData$intensity, type = "o")
+findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)
 
 
 system.time({findChromPeaks_CWT(int = chromData$intensity, rt = chromData$rtime, peakwidth = c(5, 20), snthresh = 3)})

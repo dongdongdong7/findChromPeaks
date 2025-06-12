@@ -156,7 +156,7 @@ findChromPeaks_CWT <- function(int, rt,
   basenames <- c("mz", "mzmin", "mzmax",
                  "rt", "rtmin", "rtmax",
                  "sci", "scimin", "scimax",
-                 "into", "baseline", "maxo", "sn")
+                 "into", "baseline", "maxo", "sn", "ps")
   # f: index of rois; scale: best scale for a peak;
   # scpos: centre of roi; scmin: beginning of roi; scmax: end of roi
   # lmin: initial start of peak on roi
@@ -269,6 +269,7 @@ findChromPeaks_CWT <- function(int, rt,
                   NA,         # intensity (-bl)
                   maxint,     # max intensity
                   NA, # S/N Ratio
+                  NA, # ps
                   i,        # ROI Position
                   best.scale, # Scale
                   otd[best.scale.pos],
@@ -446,6 +447,16 @@ findChromPeaks_CWT <- function(int, rt,
     }
     p <- p[which(p[, "r2"] > r2thresh), , drop = FALSE]
   }
+
+  # Peak points
+  if(nrow(p) != 0){
+    for(i in 1:nrow(p)){
+      ptd <- p[i, "scimin"]:p[i, "scimax"]
+      pd <- int[ptd]
+      p[i, "ps"] <- length(which(pd > noise))
+    }
+  }
+  p <- p[which(p[, "ps"] > minPs), , drop = FALSE]
 
   # calculate cSelectivity
   if(nrow(p) != 0){
