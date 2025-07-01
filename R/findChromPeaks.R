@@ -419,6 +419,7 @@ findChromPeaks_CWT <- function(int, rt,
       if (class(fit) != "try-error"){
         d1_fit <- predict(fit, x = x)
         peak_pos <- which.max(d1_fit)
+        if(peak_pos == 1 | peak_pos == length(d1_fit)) next
         deriv1 <- diff(d1_fit) / diff(x)
         x_deriv1 <- 1:length(deriv1)
         inflection_left_pos <- which.max(deriv1)
