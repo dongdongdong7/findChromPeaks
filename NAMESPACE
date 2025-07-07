@@ -2,6 +2,7 @@
 
 export("%>%")
 export(findChromPeaks_CWT)
+export(fitGauss)
 export(gaussian_peak)
 export(leading_peak)
 export(tailing_peak)
