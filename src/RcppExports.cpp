@@ -10,6 +10,40 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
+// C_find_insert_indices
+Rcpp::IntegerVector C_find_insert_indices(Rcpp::NumericVector peaks_mz, Rcpp::NumericVector peaks_rt, Rcpp::NumericVector ref_mz, Rcpp::NumericVector ref_rt, Rcpp::NumericVector tol_mz, double rt_tol);
+RcppExport SEXP _findChromPeaks_C_find_insert_indices(SEXP peaks_mzSEXP, SEXP peaks_rtSEXP, SEXP ref_mzSEXP, SEXP ref_rtSEXP, SEXP tol_mzSEXP, SEXP rt_tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type peaks_mz(peaks_mzSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type peaks_rt(peaks_rtSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ref_mz(ref_mzSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ref_rt(ref_rtSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type tol_mz(tol_mzSEXP);
+    Rcpp::traits::input_parameter< double >::type rt_tol(rt_tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_find_insert_indices(peaks_mz, peaks_rt, ref_mz, ref_rt, tol_mz, rt_tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// C_match_peaks
+Rcpp::IntegerVector C_match_peaks(Rcpp::NumericVector sample_mz, Rcpp::NumericVector sample_rt, Rcpp::NumericVector ref_mz, Rcpp::NumericVector ref_rt, double a, double b, double rt_diff_tol, double ppm);
+RcppExport SEXP _findChromPeaks_C_match_peaks(SEXP sample_mzSEXP, SEXP sample_rtSEXP, SEXP ref_mzSEXP, SEXP ref_rtSEXP, SEXP aSEXP, SEXP bSEXP, SEXP rt_diff_tolSEXP, SEXP ppmSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type sample_mz(sample_mzSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type sample_rt(sample_rtSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ref_mz(ref_mzSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type ref_rt(ref_rtSEXP);
+    Rcpp::traits::input_parameter< double >::type a(aSEXP);
+    Rcpp::traits::input_parameter< double >::type b(bSEXP);
+    Rcpp::traits::input_parameter< double >::type rt_diff_tol(rt_diff_tolSEXP);
+    Rcpp::traits::input_parameter< double >::type ppm(ppmSEXP);
+    rcpp_result_gen = Rcpp::wrap(C_match_peaks(sample_mz, sample_rt, ref_mz, ref_rt, a, b, rt_diff_tol, ppm));
+    return rcpp_result_gen;
+END_RCPP
+}
 // C_noiseEs
 double C_noiseEs(Rcpp::NumericVector intensity, double mag);
 RcppExport SEXP _findChromPeaks_C_noiseEs(SEXP intensitySEXP, SEXP magSEXP) {
@@ -65,6 +99,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_findChromPeaks_C_find_insert_indices", (DL_FUNC) &_findChromPeaks_C_find_insert_indices, 6},
+    {"_findChromPeaks_C_match_peaks", (DL_FUNC) &_findChromPeaks_C_match_peaks, 8},
     {"_findChromPeaks_C_noiseEs", (DL_FUNC) &_findChromPeaks_C_noiseEs, 2},
     {"_findChromPeaks_C_localMaxima", (DL_FUNC) &_findChromPeaks_C_localMaxima, 2},
     {"_findChromPeaks_C_DescendMinTol", (DL_FUNC) &_findChromPeaks_C_DescendMinTol, 3},

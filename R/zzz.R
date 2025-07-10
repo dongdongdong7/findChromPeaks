@@ -5,6 +5,12 @@
 #' @importFrom magrittr %>%
 NULL
 
+#' data.table
+#' @name data.table
+#' @export
+#' @import data.table
+NULL
+
 ## Rcpp
 ## usethis::use_rcpp()
 #' @useDynLib findChromPeaks
