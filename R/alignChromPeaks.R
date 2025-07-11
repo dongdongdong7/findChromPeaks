@@ -1,6 +1,7 @@
 # Align chromatogram peaks
 # Barry Song
 # 250709
+# TODO: intb is needed?
 
 .find_insert_indices <- function(peaks_mz, peaks_rt, ref_mz, ref_rt, ppm = 10, rt_diff_tol = 10){
   tol_mz <- MsCoreUtils::ppm(peaks_mz, ppm = ppm)
@@ -54,6 +55,7 @@ mergePeaks <- function(chromPeaksDT, ppm = 10, method = c("ppm", "range")){
     chromPeaksDT_i[, group_id := .GRP, by = .(mz_group, rt_group)]
 
     chromPeaksDT_i_new <- chromPeaksDT_i[, .(
+      cpid = paste0(cpid, collapse = ";"),
       mz = mean(mz),
       mzmin = min(mzmin),
       mzmax = max(mzmax),
@@ -67,10 +69,10 @@ mergePeaks <- function(chromPeaksDT, ppm = 10, method = c("ppm", "range")){
       sample = sample[1]
     ), by = group_id]
 
-    chromPeaksDT_i_new[, .(mz, mzmin, mzmax, rt, rtmin, rtmax, into, intb, maxo, sn, sample)]
+    chromPeaksDT_i_new[, .(cpid, mz, mzmin, mzmax, rt, rtmin, rtmax, into, intb, maxo, sn, sample)]
   }))
-  chromPeaksDT_new[, cpid := paste0("CP", formatC(seq_len(.N), flag = "0", width = ceiling(log10(.N + 1))))]
-  data.table::setcolorder(chromPeaksDT_new, neworder = c("cpid", setdiff(colnames(chromPeaksDT_new), "cpid")))
+  # chromPeaksDT_new[, cpid := paste0("CP", formatC(seq_len(.N), flag = "0", width = ceiling(log10(.N + 1))))]
+  # data.table::setcolorder(chromPeaksDT_new, neworder = c("cpid", setdiff(colnames(chromPeaksDT_new), "cpid")))
   return(chromPeaksDT_new)
 }
 
@@ -135,7 +137,7 @@ fittingFeatures <- function(chromPeaksDT, refFeaturesDT, ppm = 10, rt_diff_tol =
                                   a = a, b = b, rt_diff_tol = rt_diff_tol, ppm = ppm)
     peaks_idx_i[matched_idx_i]
   })
-  refFeaturesDT[, (paste0("sample", seq_along(matched_peaks_idx_list))) := matched_peaks_idx_list]
+  refFeaturesDT[, (paste0("sample", sample_idx)) := matched_peaks_idx_list]
   return(refFeaturesDT)
 }
 
@@ -161,7 +163,7 @@ filteringFeatures <- function(featuresDT, minFraction = 0.5, minPeaks = 1){
 getFeaturesValue <- function(featuresDT, chromPeaksDT, output = c("into", "intb", "maxo")){
   output <- match.arg(output)
   sample_names <- setdiff(colnames(featuresDT), c("mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax"))
-  sample_idx <- unique(chromPeaksDT$sample)
+  # sample_idx <- unique(chromPeaksDT$sample)
   featuresValueDT <- featuresDT[, c("mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax")]
   for(i in seq_along(sample_names)){
     matched_idx <- featuresDT[[sample_names[i]]]
