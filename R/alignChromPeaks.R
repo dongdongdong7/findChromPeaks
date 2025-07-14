@@ -77,11 +77,11 @@ mergePeaks <- function(chromPeaksDT, ppm = 10, method = c("ppm", "range")){
 }
 
 #' @rdname alignChromPeaks
-#' @param `integer(1)` idx of reference sample
+#' @param reference `integer(1)` idx of reference sample
 #' @param rt_diff_tol tolerance value for rt deviation
 #' @export
 #' @examples
-#' chromPeaksDT: data.table with at least cpid, mz, rt, sample
+#' # chromPeaksDT: data.table with at least cpid, mz, rt, sample
 #' refFeaturesDT <- makingRefFeatures(chromPeaksDT)
 makingRefFeatures <- function(chromPeaksDT, reference = 1, ppm = 10, rt_diff_tol = 10){
   chromPeaksDT_reference <- chromPeaksDT[chromPeaksDT$sample == reference, ]
@@ -152,6 +152,8 @@ filteringFeatures <- function(featuresDT, minFraction = 0.5, minPeaks = 1){
   n_samples <- length(sample_names)
   rows_notNA_num <- rowSums(!is.na(featuresDT[, ..sample_names]))
   featuresDT <- featuresDT[rows_notNA_num > round(n_samples * minFraction) & rows_notNA_num > minPeaks, ]
+  featuresDT[, ftid := paste0("FT", formatC(seq_len(.N), flag = "0", width = ceiling(log10(.N + 1))))]
+  data.table::setcolorder(featuresDT, neworder = c("ftid", setdiff(colnames(featuresDT), "ftid")))
   return(featuresDT)
 }
 
@@ -162,9 +164,9 @@ filteringFeatures <- function(featuresDT, minFraction = 0.5, minPeaks = 1){
 #' featuresValueDT <- getFeaturesValue(featuresDT = featuresDT, chromPeaksDT = chromPeaksDT)
 getFeaturesValue <- function(featuresDT, chromPeaksDT, output = c("into", "intb", "maxo")){
   output <- match.arg(output)
-  sample_names <- setdiff(colnames(featuresDT), c("mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax"))
+  sample_names <- setdiff(colnames(featuresDT), c("ftid", "mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax"))
   # sample_idx <- unique(chromPeaksDT$sample)
-  featuresValueDT <- featuresDT[, c("mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax")]
+  featuresValueDT <- featuresDT[, c("ftid", "mz", "mzmin", "mzmax", "rt", "rtmin", "rtmax")]
   for(i in seq_along(sample_names)){
     matched_idx <- featuresDT[[sample_names[i]]]
     featuresValueDT[, sample_names[i] := chromPeaksDT[[output]][matched_idx]]

@@ -32,6 +32,8 @@ getFeaturesValue(featuresDT, chromPeaksDT, output = c("into", "intb", "maxo"))
 
 \item{method}{merge methods are ppm or range}
 
+\item{reference}{\code{integer(1)} idx of reference sample}
+
 \item{rt_diff_tol}{tolerance value for rt deviation}
 
 \item{refFeaturesDT}{\code{data.table()}, reference features data.table}
@@ -45,8 +47,6 @@ getFeaturesValue(featuresDT, chromPeaksDT, output = c("into", "intb", "maxo"))
 \item{minPeaks}{\code{numeric(1)} with the minimum number of samples in at least one sample group in which the peaks have to be detected to be considered a peak group (feature).}
 
 \item{output}{values output type}
-
-\item{`integer(1)`}{idx of reference sample}
 }
 \description{
 The algorithm of peak alignment here is based on the idea of Joint Aligner implemented in MZmine and MS-DIAL.
@@ -54,7 +54,7 @@ The algorithm of peak alignment here is based on the idea of Joint Aligner imple
 \examples{
 chromPeaksDT <- readRDS(file = "./inst/demo/chromPeaksDT1.rds")
 chromPeaksDT <- mergePeaks(chromPeaksDT = chromPeaksDT)
-chromPeaksDT: data.table with at least cpid, mz, rt, sample
+# chromPeaksDT: data.table with at least cpid, mz, rt, sample
 refFeaturesDT <- makingRefFeatures(chromPeaksDT)
 featuresDT <- fittingFeatures(chromPeaksDT = chromPeaksDT, refFeaturesDT = refFeaturesDT, ppm = 10, rt_diff_tol = 10)
 featuresDT <- filteringFeatures(featuresDT = featuresDT)
