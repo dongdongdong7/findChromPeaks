@@ -156,7 +156,7 @@ findChromPeaks_CWT <- function(int, rt,
   basenames <- c("mz", "mzmin", "mzmax",
                  "rt", "rtmin", "rtmax",
                  "sci", "scimin", "scimax",
-                 "into", "baseline", "maxo", "sn", "ps")
+                 "into", "intb", "baseline", "maxo", "sn", "ps")
   # f: index of rois; scale: best scale for a peak;
   # scpos: centre of roi; scmin: beginning of roi; scmax: end of roi
   # lmin: initial start of peak on roi
@@ -267,6 +267,7 @@ findChromPeaks_CWT <- function(int, rt,
                   NA, NA, NA, # sci, scimin, scimax,
                   NA,         # intensity (sum)
                   NA,         # intensity (-bl)
+                  NA,         # baseline
                   maxint,     # max intensity
                   NA, # S/N Ratio
                   NA, # ps
@@ -359,6 +360,8 @@ findChromPeaks_CWT <- function(int, rt,
     else baseline <- mean(nd, na.rm = TRUE)
     if(baseline < 1) baseline <- 1
     p[i, "baseline"] <- round(baseline)
+    pwid <- (rt[tdrange[2]] - rt[tdrange[1]]) / (tdrange[2] - tdrange[1])
+    p[i, "intb"] <- pwid * sum(int[td] - p[i, "baseline"])
     p[i, "sn"] <- round(p[i, "maxo"] / baseline)
   }
   p <- p[which(p[, "sn"] > snthresh), , drop = FALSE]
@@ -439,6 +442,7 @@ findChromPeaks_CWT <- function(int, rt,
         pwid <- (rt[peakrange[2]] - rt[peakrange[1]]) / (peakrange[2] - peakrange[1])
         if(is.na(pwid)) pwid <- 1
         p[i, "into"] <- pwid * sum(pd)
+        p[i, "intb"] <- pwid * sum(pd - p[i, "baseline"])
         r2_fit <- round(1 - sum((d1 - d1_fit)^2) / sum((d1 - mean(d1_fit))^2), 2)
       }
       else{
