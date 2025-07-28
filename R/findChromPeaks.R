@@ -414,7 +414,9 @@ findChromPeaks_CWT <- function(int, rt,
       fit <- try(nls(d1 ~ a*exp(-((x-b)^2)/(2*c^2)),
                      start = list(a = max(d1),
                                   b = which.max(d1),
-                                  c = c)), silent = TRUE)
+                                  c = c),
+                     control = nls.control(maxiter = 50, tol = 1e-5),
+                     algorithm = "port"), silent = TRUE)
       # fit <- try(minpack.lm::nlsLM(d1 ~ a*exp(-((x-b)^2)/(2*c^2)),
       #                              start = c(a = max(d1),
       #                                        b = which.max(d1),
