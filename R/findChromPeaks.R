@@ -179,7 +179,7 @@ findChromPeaks_CWT <- function(int, rt,
   scalerange[1] <- max(3, scalerange[1]) # scales must be greater than 3, because a peak cannot be smaller than 3 data points
   scales <- seq(from = scalerange[1], to = scalerange[2], by = 2)
   minPeakWidth <-  scales[1]
-  noiserange <- ceiling(minPeakWidth * 3)
+  noiserange <- ceiling(minPeakWidth * 10) # * 3 before
   maxDescOutlier <- floor(minPeakWidth / 2)
   scanrange <- c(1, length(rt))
   sci <- scanrange[1]:scanrange[length(scanrange)]
