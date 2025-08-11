@@ -134,24 +134,6 @@ findChromPeaks_CWT <- function(int, rt,
                                csthresh = 0.2){
   if(length(peakwidth) != 2) stop("'peakwidth' has to be a numeric of length 2")
 
-  int[is.na(int)] <- 0 # avoid NAs
-  # scanIndex <- 1:length(int)
-
-  dt <- round(mean(diff(rt)), 1) # dt: mean of diff rt
-  rt_uniform <- seq(min(rt), max(rt), by = dt) # new rt
-  interp_linear <- approx(rt, int, xout = rt_uniform) # Get the int interpolation on rt_uniform
-  int_o <- int;rt_o <- rt # store original int and rt
-  int <- interp_linear$y;rt <- interp_linear$x # new int and rt
-
-  # estimate noise
-  if(estimateNoise){
-    mag <- min(snthresh, 3)
-    noise_es <- .noiseEs(int = int_o, mag = mag)
-    if(length(which(int_o > noise_es)) > minPs) noise <- noise_es # avoid noise misestimation
-  }
-  # Get ROIs
-  rois <- .getRtROI(int = int, rt = rt, peakwidth = peakwidth, noise = noise, prefilter = c(minPs, noise))
-
   # column names
   basenames <- c("mz", "mzmin", "mzmax",
                  "rt", "rtmin", "rtmax",
@@ -171,6 +153,30 @@ findChromPeaks_CWT <- function(int, rt,
   # nopeaks <- matrix(nrow = 0, ncol = peaks_ncols,
   #                   dimnames = list(character(), peaks_names))
   # nopeaks <- nopeaks[, -(1:3), drop = FALSE]
+
+  int[is.na(int)] <- 0 # avoid NAs
+  # scanIndex <- 1:length(int)
+  if(length(which(int != 0)) < minPs){
+    warning("The number of signal < minPs!")
+    nopeaks <- matrix(nrow = 0, ncol = peaks_ncols,
+                      dimnames = list(character(), peaks_names))
+    return(nopeaks[, -(1:3), drop = FALSE])
+  }
+
+  dt <- round(mean(diff(rt)), 1) # dt: mean of diff rt
+  rt_uniform <- seq(min(rt), max(rt), by = dt) # new rt
+  interp_linear <- approx(rt, int, xout = rt_uniform) # Get the int interpolation on rt_uniform
+  int_o <- int;rt_o <- rt # store original int and rt
+  int <- interp_linear$y;rt <- interp_linear$x # new int and rt
+
+  # estimate noise
+  if(estimateNoise){
+    mag <- min(snthresh, 3)
+    noise_es <- .noiseEs(int = int_o, mag = mag)
+    if(length(which(int_o > noise_es)) > minPs) noise <- noise_es # avoid noise misestimation
+  }
+  # Get ROIs
+  rois <- .getRtROI(int = int, rt = rt, peakwidth = peakwidth, noise = noise, prefilter = c(minPs, noise))
 
   ## Peak width: seconds to scales
   # scale is the number of data points in the observation peaks, 2 is an empirical constant
